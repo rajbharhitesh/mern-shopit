@@ -14,6 +14,11 @@ const PORT = process.env.PORT || 5000;
 // connect database
 connectDB();
 
+// import routes
+import productRoute from './routes/productRoute.js';
+
+app.use('/api/v1', productRoute);
+
 app.listen(PORT, () => {
   console.log(
     `Server running in ${process.env.NODE_ENV} mode on PORT:${PORT}`.bgBlue

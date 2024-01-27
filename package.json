@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Ecommerce App",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "SET NODE_ENV=DEVELOPMENT& nodemon backend/server.js",
-    "prod": "SET NODE_ENV=PRODUCTION& nodemon backend/server.js"
+    "start": "node backend/app.js",
+    "dev": "SET NODE_ENV=DEVELOPMENT& nodemon backend/app.js",
+    "prod": "SET NODE_ENV=PRODUCTION& nodemon backend/app.js"
   },
   "keywords": [],
   "author": "Hitesh Rajbhar",
