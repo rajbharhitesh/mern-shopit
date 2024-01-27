@@ -7,9 +7,9 @@ import Product from '../models/productModel.js';
  * @access  Public
  ------------------------------------------------*/
 const getProducts = async (req, res) => {
-  res.status(200).json({
-    message: 'All Products',
-  });
+  const products = await Product.find();
+
+  res.status(200).json({ products });
 };
 
 /**-----------------------------------------------
