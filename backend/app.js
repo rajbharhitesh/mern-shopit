@@ -17,6 +17,9 @@ connectDB();
 // import routes
 import productRoute from './routes/productRoute.js';
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use('/api/v1', productRoute);
 
 app.listen(PORT, () => {
