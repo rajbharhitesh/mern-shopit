@@ -1,4 +1,5 @@
 import Product from '../models/productModel.js';
+import ErrorHandler from '../utils/ErrorHandler.js';
 
 /**-----------------------------------------------
  * @desc    Fetch All Products
@@ -18,11 +19,11 @@ const getProducts = async (req, res) => {
  * @method  GET
  * @access  Public
  ------------------------------------------------*/
-const getProductDetails = async (req, res) => {
+const getProductDetails = async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
   if (!product) {
-    return res.status(404).json({ error: 'Product not Found..' });
+    return next(new ErrorHandler('Product not Found', 404));
   }
 
   res.status(200).json({ product });
@@ -48,11 +49,11 @@ const newProduct = async (req, res) => {
  * @method  PUT
  * @access  Private
  ------------------------------------------------*/
-const updateProduct = async (req, res) => {
+const updateProduct = async (req, res, next) => {
   let product = await Product.findById(req.params.id);
 
   if (!product) {
-    return res.status(404).json({ error: 'Product not Found..' });
+    return next(new ErrorHandler('Product not Found', 404));
   }
 
   product = await Product.findByIdAndUpdate(req.params.id, req.body, {
@@ -68,11 +69,11 @@ const updateProduct = async (req, res) => {
  * @method  DELETE
  * @access  Private
  ------------------------------------------------*/
-const deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
   if (!product) {
-    return res.status(404).json({ error: 'Product not Found..' });
+    return next(new ErrorHandler('Product not Found', 404));
   }
 
   await product.deleteOne();

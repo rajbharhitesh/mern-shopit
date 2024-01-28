@@ -2,6 +2,7 @@ import express from 'express';
 import colors from 'colors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
+import { errorMiddleware } from './middlewares/errorMiddleware.js';
 const app = express();
 
 // config
@@ -21,6 +22,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1', productRoute);
+
+// error middlewares
+app.use(errorMiddleware);
 
 app.listen(PORT, () => {
   console.log(
