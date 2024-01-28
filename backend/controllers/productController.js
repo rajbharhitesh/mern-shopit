@@ -13,6 +13,24 @@ const getProducts = async (req, res) => {
 };
 
 /**-----------------------------------------------
+ * @desc    Fetch Single Product
+ * @route   /api/v1/products/:id
+ * @method  GET
+ * @access  Public
+ ------------------------------------------------*/
+const getProductDetails = async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    return res.status(404).json({
+      error: 'Product not Found..',
+    });
+  }
+
+  res.status(200).json({ product });
+};
+
+/**-----------------------------------------------
  * @desc    New Products
  * @route   /api/v1/admin/products
  * @method  POST
@@ -26,4 +44,4 @@ const newProduct = async (req, res) => {
   });
 };
 
-export { getProducts, newProduct };
+export { getProducts, newProduct, getProductDetails };
