@@ -26,9 +26,18 @@ app.use('/api/v1', productRoute);
 // error middlewares
 app.use(errorMiddleware);
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(
     `Server running in ${process.env.NODE_ENV} mode on PORT:${PORT}`.bgBlue
       .black.underline.bold
   );
+});
+
+// handle unhandle promise rejection
+process.on('unhandledRejection', (err) => {
+  console.log(`Error:${err}`);
+  console.log(`shutting down the server due to unhandle promise rejection`);
+  server.close(() => {
+    process.exit(1);
+  });
 });
