@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  deleteProduct,
   getProductDetails,
   getProducts,
   newProduct,
@@ -13,10 +14,10 @@ router.route('/products').get(getProducts);
 // api/v1/admin/products
 router.route('/admin/products').post(newProduct);
 
-// api/v1/admin/products/:id
-router.route('/admin/products/:id').put(updateProduct);
-
 // api/v1/products/:id
 router.route('/products/:id').get(getProductDetails);
+
+// api/v1/admin/products/:id
+router.route('/admin/products/:id').put(updateProduct).delete(deleteProduct);
 
 export default router;
