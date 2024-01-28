@@ -5,6 +5,13 @@ import connectDB from './config/db.js';
 import { errorMiddleware } from './middlewares/errorMiddleware.js';
 const app = express();
 
+// handle uncaught exception
+process.on('uncaughtException', (err) => {
+  console.log(`Error:${err}`);
+  console.log(`shutting down the server due to uncaught exception`);
+  process.exit(1);
+});
+
 // config
 dotenv.config({
   path: 'backend/config/config.env',
