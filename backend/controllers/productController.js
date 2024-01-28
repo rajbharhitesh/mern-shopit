@@ -31,6 +31,28 @@ const getProductDetails = async (req, res) => {
 };
 
 /**-----------------------------------------------
+ * @desc    Update Product
+ * @route   /api/v1/admin/products/:id
+ * @method  PUT
+ * @access  Private
+ ------------------------------------------------*/
+const updateProduct = async (req, res) => {
+  let product = await Product.findById(req.params.id);
+
+  if (!product) {
+    return res.status(404).json({
+      error: 'Product not Found..',
+    });
+  }
+
+  product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+
+  res.status(200).json({ product });
+};
+
+/**-----------------------------------------------
  * @desc    New Products
  * @route   /api/v1/admin/products
  * @method  POST
@@ -44,4 +66,4 @@ const newProduct = async (req, res) => {
   });
 };
 
-export { getProducts, newProduct, getProductDetails };
+export { getProducts, newProduct, getProductDetails, updateProduct };

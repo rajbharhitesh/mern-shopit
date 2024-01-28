@@ -3,6 +3,7 @@ import {
   getProductDetails,
   getProducts,
   newProduct,
+  updateProduct,
 } from '../controllers/productController.js';
 const router = express.Router();
 
@@ -11,6 +12,9 @@ router.route('/products').get(getProducts);
 
 // api/v1/admin/products
 router.route('/admin/products').post(newProduct);
+
+// api/v1/admin/products/:id
+router.route('/admin/products/:id').put(updateProduct);
 
 // api/v1/products/:id
 router.route('/products/:id').get(getProductDetails);
