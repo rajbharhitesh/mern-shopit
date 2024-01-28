@@ -15,7 +15,7 @@ const getProducts = asyncHandler(async (req, res) => {
   let products = await apiFilters.query;
   let filteredProducts = products.length;
 
-  res.status(200).json({ products, filteredProducts });
+  res.status(200).json({ filteredProducts, products });
 });
 
 /**-----------------------------------------------
