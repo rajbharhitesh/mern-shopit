@@ -1,6 +1,7 @@
 import asyncHandler from '../middlewares/asyncHandler.js';
 import Product from '../models/productModel.js';
 import ErrorHandler from '../utils/ErrorHandler.js';
+import ApiFilters from '../utils/apiFilter.js';
 
 /**-----------------------------------------------
  * @desc    Fetch All Products
@@ -9,9 +10,12 @@ import ErrorHandler from '../utils/ErrorHandler.js';
  * @access  Public
  ------------------------------------------------*/
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find();
+  const apiFilters = new ApiFilters(Product, req.query).search();
 
-  res.status(200).json({ products });
+  let products = await apiFilters.query;
+  let filteredProducts = products.length;
+
+  res.status(200).json({ products, filteredProducts });
 });
 
 /**-----------------------------------------------
