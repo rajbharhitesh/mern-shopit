@@ -1,3 +1,4 @@
+import asyncHandler from '../middlewares/asyncHandler.js';
 import Product from '../models/productModel.js';
 import ErrorHandler from '../utils/ErrorHandler.js';
 
@@ -7,11 +8,11 @@ import ErrorHandler from '../utils/ErrorHandler.js';
  * @method  GET
  * @access  Public
  ------------------------------------------------*/
-const getProducts = async (req, res) => {
+const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find();
 
   res.status(200).json({ products });
-};
+});
 
 /**-----------------------------------------------
  * @desc    Fetch Single Product
@@ -19,7 +20,7 @@ const getProducts = async (req, res) => {
  * @method  GET
  * @access  Public
  ------------------------------------------------*/
-const getProductDetails = async (req, res, next) => {
+const getProductDetails = asyncHandler(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
   if (!product) {
@@ -27,7 +28,7 @@ const getProductDetails = async (req, res, next) => {
   }
 
   res.status(200).json({ product });
-};
+});
 
 /**-----------------------------------------------
  * @desc    New Products
@@ -35,13 +36,13 @@ const getProductDetails = async (req, res, next) => {
  * @method  POST
  * @access  Private
  ------------------------------------------------*/
-const newProduct = async (req, res) => {
+const newProduct = asyncHandler(async (req, res) => {
   const product = await Product.create(req.body);
 
   res.status(201).json({
     product,
   });
-};
+});
 
 /**-----------------------------------------------
  * @desc    Update Product
@@ -49,7 +50,7 @@ const newProduct = async (req, res) => {
  * @method  PUT
  * @access  Private
  ------------------------------------------------*/
-const updateProduct = async (req, res, next) => {
+const updateProduct = asyncHandler(async (req, res, next) => {
   let product = await Product.findById(req.params.id);
 
   if (!product) {
@@ -61,7 +62,7 @@ const updateProduct = async (req, res, next) => {
   });
 
   res.status(200).json({ product });
-};
+});
 
 /**-----------------------------------------------
  * @desc    Delete Product
@@ -69,7 +70,7 @@ const updateProduct = async (req, res, next) => {
  * @method  DELETE
  * @access  Private
  ------------------------------------------------*/
-const deleteProduct = async (req, res, next) => {
+const deleteProduct = asyncHandler(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
   if (!product) {
@@ -79,7 +80,7 @@ const deleteProduct = async (req, res, next) => {
   await product.deleteOne();
 
   res.status(200).json({ message: 'Product deleted' });
-};
+});
 
 export {
   getProducts,
