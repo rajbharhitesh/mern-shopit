@@ -11,6 +11,10 @@ import ErrorHandler from '../utils/ErrorHandler.js';
 const registerUser = asyncHandler(async (req, res, next) => {
   const { name, email, password } = req.body;
 
+  if (!name || !email || !password) {
+    return next(new ErrorHandler('please provide all fields', 400));
+  }
+
   const userExists = await User.findOne({ email });
 
   if (userExists) {
@@ -22,4 +26,32 @@ const registerUser = asyncHandler(async (req, res, next) => {
   res.status(201).json({ success: true });
 });
 
-export { registerUser };
+/**-----------------------------------------------
+ * @desc    Login user
+ * @route   /api/v1/login
+ * @method  POST
+ * @access  Public
+ ------------------------------------------------*/
+const loginUser = asyncHandler(async (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return next(new ErrorHandler('please provide all fields', 400));
+  }
+
+  const user = await User.findOne({ email }).select('+password');
+
+  if (!user) {
+    return next(new ErrorHandler('Invalid email or password', 401));
+  }
+
+  const isPasswordMatched = await user.comparePassword(password);
+
+  if (!isPasswordMatched) {
+    return next(new ErrorHandler('Invalid email or password', 401));
+  }
+
+  res.status(200).json({ success: true });
+});
+
+export { registerUser, loginUser };
