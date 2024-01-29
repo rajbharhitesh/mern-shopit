@@ -11,7 +11,7 @@ const sendToken = (user, statusCode, res) => {
     httpOnly: true,
   };
 
-  res.status(statusCode).cookies('token', token, options).json({ token });
+  res.status(statusCode).cookie('token', token, options).json({ token, user });
 };
 
 export default sendToken;
