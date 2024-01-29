@@ -1,6 +1,7 @@
 import asyncHandler from '../middlewares/asyncHandler.js';
 import User from '../models/userModel.js';
 import ErrorHandler from '../utils/ErrorHandler.js';
+import sendToken from '../utils/sendToken.js';
 
 /**-----------------------------------------------
  * @desc    Register user
@@ -23,7 +24,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
 
   const user = await User.create({ name, email, password });
 
-  res.status(201).json({ success: true });
+  sendToken(user, 201, res);
 });
 
 /**-----------------------------------------------
@@ -51,7 +52,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
     return next(new ErrorHandler('Invalid email or password', 401));
   }
 
-  res.status(200).json({ success: true });
+  sendToken(user, 200, res);
 });
 
 export { registerUser, loginUser };
