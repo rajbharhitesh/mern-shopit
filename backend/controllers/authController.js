@@ -55,4 +55,19 @@ const loginUser = asyncHandler(async (req, res, next) => {
   sendToken(user, 200, res);
 });
 
-export { registerUser, loginUser };
+/**-----------------------------------------------
+ * @desc    Logout user
+ * @route   /api/v1/logout
+ * @method  GET
+ * @access  Private
+ ------------------------------------------------*/
+const logoutUser = asyncHandler(async (req, res, next) => {
+  res.cookie('token', null, {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  });
+
+  res.status(200).json({ message: 'Logout Successfull' });
+});
+
+export { registerUser, loginUser, logoutUser };
