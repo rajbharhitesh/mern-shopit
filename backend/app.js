@@ -1,6 +1,7 @@
 import express from 'express';
 import colors from 'colors';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';
 import { errorMiddleware } from './middlewares/errorMiddleware.js';
 const app = express();
@@ -26,6 +27,7 @@ connectDB();
 import productRoute from './routes/productRoute.js';
 import authRoute from './routes/authRoute.js';
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
