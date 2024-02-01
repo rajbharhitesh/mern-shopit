@@ -4,6 +4,7 @@ import {
   logoutUser,
   registerUser,
   updatePassword,
+  updateProfile,
   userProfile,
 } from '../controllers/authController.js';
 import { authenticatedUser } from '../middlewares/authMiddleware.js';
@@ -23,5 +24,8 @@ router.route('/me').get(authenticatedUser, userProfile);
 
 // api/v1/password/update
 router.route('/password/update').put(authenticatedUser, updatePassword);
+
+// api/v1/me/update
+router.route('/me/update').put(authenticatedUser, updateProfile);
 
 export default router;
