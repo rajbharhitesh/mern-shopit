@@ -127,6 +127,40 @@ const updateProfile = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**-----------------------------------------------
+ * @desc    Get all users by Admin
+ * @route   /api/v1/admin/users
+ * @method  GET
+ * @access  Private
+ ------------------------------------------------*/
+const allUsers = asyncHandler(async (req, res, next) => {
+  const users = await User.find();
+
+  res.status(200).json({
+    users,
+  });
+});
+
+/**-----------------------------------------------
+ * @desc    Get User Details - ADMIN 
+ * @route   /api/v1/admin/users/:id
+ * @method  GET
+ * @access  Private
+ ------------------------------------------------*/
+const getUserDetails = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(
+      new ErrorHandler(`User not found with id: ${req.params.id}`, 404)
+    );
+  }
+
+  res.status(200).json({
+    user,
+  });
+});
+
 export {
   registerUser,
   loginUser,
@@ -134,4 +168,6 @@ export {
   userProfile,
   updatePassword,
   updateProfile,
+  allUsers,
+  getUserDetails,
 };

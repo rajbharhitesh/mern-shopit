@@ -1,5 +1,7 @@
 import express from 'express';
 import {
+  allUsers,
+  getUserDetails,
   loginUser,
   logoutUser,
   registerUser,
@@ -7,7 +9,10 @@ import {
   updateProfile,
   userProfile,
 } from '../controllers/authController.js';
-import { authenticatedUser } from '../middlewares/authMiddleware.js';
+import {
+  authenticatedUser,
+  authorizeRoles,
+} from '../middlewares/authMiddleware.js';
 const router = express.Router();
 
 // api/v1/register
@@ -27,5 +32,15 @@ router.route('/password/update').put(authenticatedUser, updatePassword);
 
 // api/v1/me/update
 router.route('/me/update').put(authenticatedUser, updateProfile);
+
+//api/v1/admin/users
+router
+  .route('/admin/users')
+  .get(authenticatedUser, authorizeRoles('admin'), allUsers);
+
+//api/v1/admin/users/:id
+router
+  .route('/admin/users/:id')
+  .get(authenticatedUser, authorizeRoles('admin'), getUserDetails);
 
 export default router;
