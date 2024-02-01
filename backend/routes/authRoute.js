@@ -3,6 +3,7 @@ import {
   loginUser,
   logoutUser,
   registerUser,
+  updatePassword,
   userProfile,
 } from '../controllers/authController.js';
 import { authenticatedUser } from '../middlewares/authMiddleware.js';
@@ -19,5 +20,8 @@ router.route('/logout').get(logoutUser);
 
 // api/v1/me
 router.route('/me').get(authenticatedUser, userProfile);
+
+// api/v1/password/update
+router.route('/password/update').put(authenticatedUser, updatePassword);
 
 export default router;
