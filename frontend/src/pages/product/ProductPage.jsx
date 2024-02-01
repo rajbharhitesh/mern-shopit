@@ -22,7 +22,9 @@ const ProductPage = () => {
   }, [product]);
 
   useEffect(() => {
-    if (isError) return toast.error(error.data.message);
+    if (isError) {
+      toast.error(error?.data?.message);
+    }
   }, [isError, error]);
 
   if (isLoading) return <Loader />;
@@ -41,8 +43,8 @@ const ProductPage = () => {
         </div>
         <div className="row justify-content-start mt-5">
           {product?.images.map((img) => (
-            <div className="col-2 ms-4 mt-2">
-              <a role="button">
+            <div key={img.url} className="col-2 ms-4 mt-2">
+              <a href="#button" role="button">
                 <img
                   className={`d-block border rounded p-3 cursor-pointer ${
                     img.url === activeImage ? 'border-warning' : ''
@@ -88,7 +90,7 @@ const ProductPage = () => {
             type="number"
             className="form-control count d-inline"
             value="1"
-            readonly
+            readOnly
           />
           <span className="btn btn-primary plus">+</span>
         </div>

@@ -5,6 +5,7 @@ import Footer from './components/layout/Footer';
 import Header from './components/layout/Header';
 import HomePage from './pages/HomePage';
 import ProductPage from './pages/product/ProductPage';
+import LoginPage from './pages/auth/LoginPage';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="/login" element={<LoginPage />} />
           </Routes>
         </div>
 

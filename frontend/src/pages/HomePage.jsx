@@ -9,7 +9,9 @@ const HomePage = () => {
   const { data, isLoading, error, isError } = useGetProductsQuery();
 
   useEffect(() => {
-    if (isError) return toast.error(error.data.message);
+    if (isError) {
+      toast.error(error?.data?.message);
+    }
   }, [isError, error]);
 
   if (isLoading) return <Loader />;
