@@ -141,6 +141,59 @@ const createReview = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true });
 });
 
+/**-----------------------------------------------
+ * @desc     Get product reviews 
+ * @route   /api/v1/reviews
+ * @method  GET
+ * @access  Private
+ ------------------------------------------------*/
+const getProductReviews = asyncHandler(async (req, res, next) => {
+  const product = await Product.findById(req.query.id).populate('reviews.user');
+
+  if (!product) {
+    return next(new ErrorHandler('Product not found', 404));
+  }
+
+  res.status(200).json({ reviews: product.reviews });
+});
+
+/**-----------------------------------------------
+ * @desc     Delete product review
+ * @route   /api/v1/reviews
+ * @method  GET
+ * @access  Private
+ ------------------------------------------------*/
+const deleteReview = asyncHandler(async (req, res, next) => {
+  let product = await Product.findById(req.query.productId);
+
+  if (!product) {
+    return next(new ErrorHandler('Product not found', 404));
+  }
+
+  const reviews = product.reviews.filter(
+    (review) => review._id.toString() !== req.query.id.toString()
+  );
+
+  const numOfReviews = reviews.length;
+
+  const ratings =
+    numOfReviews === 0
+      ? 0
+      : product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+        numOfReviews;
+
+  product = await Product.findByIdAndUpdate(
+    req.query.productId,
+    { reviews, numOfReviews, ratings },
+    { new: true }
+  );
+
+  res.status(200).json({
+    success: true,
+    product,
+  });
+});
+
 export {
   getProducts,
   newProduct,
@@ -148,4 +201,6 @@ export {
   updateProduct,
   deleteProduct,
   createReview,
+  getProductReviews,
+  deleteReview,
 };

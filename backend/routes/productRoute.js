@@ -2,7 +2,9 @@ import express from 'express';
 import {
   createReview,
   deleteProduct,
+  deleteReview,
   getProductDetails,
+  getProductReviews,
   getProducts,
   newProduct,
   updateProduct,
@@ -17,7 +19,11 @@ const router = express.Router();
 router.route('/products').get(getProducts);
 
 // api/v1/reviews
-router.route('/reviews').put(authenticatedUser, createReview);
+router
+  .route('/reviews')
+  .get(authenticatedUser, getProductReviews)
+  .put(authenticatedUser, createReview)
+  .delete(authenticatedUser, deleteReview);
 
 // api/v1/admin/products
 router
