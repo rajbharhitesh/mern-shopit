@@ -1,5 +1,6 @@
 import asyncHandler from '../middlewares/asyncHandler.js';
 import Order from '../models/orderModel.js';
+import Product from '../models/productModel.js';
 import ErrorHandler from '../utils/ErrorHandler.js';
 
 /**-----------------------------------------------
@@ -72,4 +73,91 @@ const getOrderDetails = asyncHandler(async (req, res, next) => {
   });
 });
 
-export { newOrder, myOrders, getOrderDetails };
+/**-----------------------------------------------
+ * @desc     Get all orders - ADMIN 
+ * @route   /api/v1/admin/orders
+ * @method  GET
+ * @access  Private
+ ------------------------------------------------*/
+const allOrders = asyncHandler(async (req, res, next) => {
+  const orders = await Order.find();
+
+  res.status(200).json({
+    orders,
+  });
+});
+
+/**-----------------------------------------------
+ * @desc     Update Order - ADMIN 
+ * @route   /api/v1/admin/orders/:id
+ * @method  PUT
+ * @access  Private
+ ------------------------------------------------*/
+const updateOrder = asyncHandler(async (req, res, next) => {
+  const order = await Order.findById(req.params.id);
+
+  if (!order) {
+    return next(new ErrorHandler('No Order found with this ID', 404));
+  }
+
+  if (order.orderStatus === 'Delivered') {
+    return next(new ErrorHandler('You have already delivered this order', 400));
+  }
+
+  let productNotFound = false;
+
+  // Update products stock
+  for (const item of order.orderItems) {
+    const product = await Product.findById(item.product.toString());
+    if (!product) {
+      productNotFound = true;
+      break;
+    }
+    product.stock = product.stock - item.quantity;
+    await product.save({ validateBeforeSave: false });
+  }
+
+  if (productNotFound) {
+    return next(
+      new ErrorHandler('No Product found with one or more IDs.', 404)
+    );
+  }
+
+  order.orderStatus = req.body.status;
+  order.deliveredAt = Date.now();
+
+  await order.save();
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
+/**-----------------------------------------------
+ * @desc     Delete Order - ADMIN 
+ * @route   /api/v1/admin/orders/:id
+ * @method  DELETE
+ * @access  Private
+ ------------------------------------------------*/
+const deleteOrder = asyncHandler(async (req, res, next) => {
+  const order = await Order.findById(req.params.id);
+
+  if (!order) {
+    return next(new ErrorHandler('No Order found with this ID', 404));
+  }
+
+  await order.deleteOne();
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
+export {
+  newOrder,
+  myOrders,
+  getOrderDetails,
+  allOrders,
+  updateOrder,
+  deleteOrder,
+};
