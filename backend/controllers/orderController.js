@@ -37,4 +37,39 @@ const newOrder = asyncHandler(async (req, res, next) => {
   });
 });
 
-export { newOrder };
+/**-----------------------------------------------
+ * @desc    Get current user orders
+ * @route   /api/v1/me/orders
+ * @method  GET
+ * @access  Private
+ ------------------------------------------------*/
+const myOrders = asyncHandler(async (req, res, next) => {
+  const orders = await Order.find({ user: req.user._id });
+
+  res.status(200).json({
+    orders,
+  });
+});
+
+/**-----------------------------------------------
+ * @desc    Get order details
+ * @route   /api/v1/orders/:id
+ * @method  GET
+ * @access  Private
+ ------------------------------------------------*/
+const getOrderDetails = asyncHandler(async (req, res, next) => {
+  const order = await Order.findById(req.params.id).populate(
+    'user',
+    'name email'
+  );
+
+  if (!order) {
+    return next(new ErrorHandler('No Order found with this ID', 404));
+  }
+
+  res.status(200).json({
+    order,
+  });
+});
+
+export { newOrder, myOrders, getOrderDetails };
