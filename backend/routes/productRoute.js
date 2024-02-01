@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  createReview,
   deleteProduct,
   getProductDetails,
   getProducts,
@@ -14,6 +15,9 @@ const router = express.Router();
 
 // api/v1/products
 router.route('/products').get(getProducts);
+
+// api/v1/reviews
+router.route('/reviews').put(authenticatedUser, createReview);
 
 // api/v1/admin/products
 router
