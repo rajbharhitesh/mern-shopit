@@ -161,6 +161,50 @@ const getUserDetails = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**-----------------------------------------------
+ * @desc    Update User Details - ADMIN 
+ * @route   /api/v1/admin/users/:id
+ * @method  PUT
+ * @access  Private
+ ------------------------------------------------*/
+const updateUser = asyncHandler(async (req, res, next) => {
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+  };
+
+  const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+    new: true,
+  });
+
+  res.status(200).json({
+    user,
+  });
+});
+
+/**-----------------------------------------------
+ * @desc    Delete User- ADMIN 
+ * @route   /api/v1/admin/users/:id
+ * @method  DELETE
+ * @access  Private
+ ------------------------------------------------*/
+const deleteUser = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(
+      new ErrorHandler(`User not found with id: ${req.params.id}`, 404)
+    );
+  }
+
+  await user.deleteOne();
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
 export {
   registerUser,
   loginUser,
@@ -170,4 +214,6 @@ export {
   updateProfile,
   allUsers,
   getUserDetails,
+  updateUser,
+  deleteUser,
 };

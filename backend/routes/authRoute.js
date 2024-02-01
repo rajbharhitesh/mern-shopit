@@ -1,12 +1,14 @@
 import express from 'express';
 import {
   allUsers,
+  deleteUser,
   getUserDetails,
   loginUser,
   logoutUser,
   registerUser,
   updatePassword,
   updateProfile,
+  updateUser,
   userProfile,
 } from '../controllers/authController.js';
 import {
@@ -41,6 +43,8 @@ router
 //api/v1/admin/users/:id
 router
   .route('/admin/users/:id')
-  .get(authenticatedUser, authorizeRoles('admin'), getUserDetails);
+  .get(authenticatedUser, authorizeRoles('admin'), getUserDetails)
+  .put(authenticatedUser, authorizeRoles('admin'), updateUser)
+  .delete(authenticatedUser, authorizeRoles('admin'), deleteUser);
 
 export default router;
