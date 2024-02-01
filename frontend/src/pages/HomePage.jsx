@@ -1,10 +1,16 @@
+import { useEffect } from 'react';
+import { useGetProductsQuery } from '../redux/api/productApi';
+import toast from 'react-hot-toast';
 import Loader from '../components/layout/Loader';
 import Meta from '../components/layout/Meta';
 import ProductItem from '../components/product/ProductItem';
-import { useGetProductsQuery } from '../redux/api/productApi';
 
 const HomePage = () => {
-  const { data, isLoading } = useGetProductsQuery();
+  const { data, isLoading, error, isError } = useGetProductsQuery();
+
+  useEffect(() => {
+    if (isError) return toast.error(error.data.message);
+  }, [isError, error]);
 
   if (isLoading) return <Loader />;
 
