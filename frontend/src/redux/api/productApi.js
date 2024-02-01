@@ -9,6 +9,7 @@ export const productApi = createApi({
       query: () => ({
         url: '/products',
       }),
+      keepUnusedDataFor: 5,
     }),
   }),
 });

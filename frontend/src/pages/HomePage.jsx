@@ -1,3 +1,4 @@
+import Loader from '../components/layout/Loader';
 import Meta from '../components/layout/Meta';
 import ProductItem from '../components/product/ProductItem';
 import { useGetProductsQuery } from '../redux/api/productApi';
@@ -5,7 +6,7 @@ import { useGetProductsQuery } from '../redux/api/productApi';
 const HomePage = () => {
   const { data, isLoading } = useGetProductsQuery();
 
-  if (isLoading) return <h3>Loading....</h3>;
+  if (isLoading) return <Loader />;
 
   return (
     <>
