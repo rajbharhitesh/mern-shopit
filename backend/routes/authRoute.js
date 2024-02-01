@@ -3,7 +3,9 @@ import {
   loginUser,
   logoutUser,
   registerUser,
+  userProfile,
 } from '../controllers/authController.js';
+import { authenticatedUser } from '../middlewares/authMiddleware.js';
 const router = express.Router();
 
 // api/v1/register
@@ -14,5 +16,8 @@ router.route('/login').post(loginUser);
 
 // api/v1/logout
 router.route('/logout').get(logoutUser);
+
+// api/v1/me
+router.route('/me').get(authenticatedUser, userProfile);
 
 export default router;

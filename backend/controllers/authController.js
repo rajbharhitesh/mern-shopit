@@ -70,4 +70,16 @@ const logoutUser = asyncHandler(async (req, res, next) => {
   res.status(200).json({ message: 'Logout Successfull' });
 });
 
-export { registerUser, loginUser, logoutUser };
+/**-----------------------------------------------
+ * @desc    Get current logged in user profile
+ * @route   /api/v1/me
+ * @method  GET
+ * @access  Private
+ ------------------------------------------------*/
+const userProfile = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+
+  res.status(200).json({ user });
+});
+
+export { registerUser, loginUser, logoutUser, userProfile };
