@@ -6,10 +6,10 @@ import userReducer from './feature/userSlice';
 
 export const store = configureStore({
   reducer: {
+    auth: userReducer,
     [productApi.reducerPath]: productApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
-    auth: userReducer,
   },
 
   middleware: (getDefaultMiddleware) =>
