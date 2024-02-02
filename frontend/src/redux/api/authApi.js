@@ -5,6 +5,14 @@ export const authApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
 
   endpoints: (builder) => ({
+    register: builder.mutation({
+      query: (body) => ({
+        url: '/register',
+        method: 'POST',
+        body,
+      }),
+    }),
+
     login: builder.mutation({
       query: (body) => ({
         url: '/login',
@@ -15,4 +23,4 @@ export const authApi = createApi({
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useRegisterMutation, useLoginMutation } = authApi;
