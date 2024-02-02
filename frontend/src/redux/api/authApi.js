@@ -39,7 +39,14 @@ export const authApi = createApi({
         }
       },
     }),
+
+    logout: builder.query({
+      query: () => ({
+        url: '/logout',
+      }),
+    }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation } = authApi;
+export const { useRegisterMutation, useLoginMutation, useLazyLogoutQuery } =
+  authApi;
