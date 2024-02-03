@@ -1,20 +1,28 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useGetMeQuery } from '../../redux/api/userApi';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLazyLogoutQuery } from '../../redux/api/authApi';
+import { logout } from '../../redux/feature/userSlice';
 import Search from './Search';
 
 const Header = () => {
-  const navigate = useNavigate();
-
   const { isLoading } = useGetMeQuery();
-  const [logout] = useLazyLogoutQuery();
+  const [logoutApiCall] = useLazyLogoutQuery();
 
   const { user } = useSelector((state) => state.auth);
 
-  const logoutHandler = () => {
-    logout();
-    navigate(0);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const logoutHandler = async () => {
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+
+      navigate(0);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
