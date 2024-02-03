@@ -6,14 +6,20 @@ import Loader from '../components/layout/Loader';
 import Meta from '../components/layout/Meta';
 import ProductItem from '../components/product/ProductItem';
 import CustomPagination from '../components/layout/CustomPagination';
+import Filter from '../components/layout/Filter';
 
 const HomePage = () => {
   let [searchParams] = useSearchParams();
 
   const page = searchParams.get('page') || 1;
   const keyword = searchParams.get('keyword') || '';
+  const max = searchParams.get('max');
+  const min = searchParams.get('min');
 
   const params = { page, keyword };
+
+  min !== null && (params.min = min);
+  max !== null && (params.max = max);
 
   const { data, isLoading, error, isError } = useGetProductsQuery(params);
 
@@ -33,7 +39,7 @@ const HomePage = () => {
       <div className="row">
         {keyword && (
           <div className="col-6  col-md-3 mt-5">
-            <p>FILTERS</p>
+            <Filter />
           </div>
         )}
 
