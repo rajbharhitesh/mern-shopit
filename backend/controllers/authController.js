@@ -2,7 +2,7 @@ import asyncHandler from '../middlewares/asyncHandler.js';
 import User from '../models/userModel.js';
 import ErrorHandler from '../utils/ErrorHandler.js';
 import sendToken from '../utils/sendToken.js';
-import { upload_file } from '../utils/cloudinary.js';
+import { delete_file, upload_file } from '../utils/cloudinary.js';
 
 /**-----------------------------------------------
  * @desc    Register user
@@ -136,6 +136,11 @@ const updateProfile = asyncHandler(async (req, res, next) => {
  ------------------------------------------------*/
 const uploadAvatar = asyncHandler(async (req, res, next) => {
   const avatarResponse = await upload_file(req.body.avatar, 'shopit/avatars');
+
+  // remove previous avatar
+  if (req.user.avatar.url) {
+    await delete_file(req.user.avatar.public_id);
+  }
 
   const user = await User.findByIdAndUpdate(req.user._id, {
     avatar: avatarResponse,
