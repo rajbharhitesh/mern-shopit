@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { useGetMeQuery } from '../../redux/api/userApi';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLazyLogoutQuery } from '../../redux/api/authApi';
+import Search from './Search';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -26,21 +27,7 @@ const Header = () => {
         </div>
       </div>
       <div className="col-12 col-md-6 mt-2 mt-md-0">
-        <form action="your_search_action_url_here" method="get">
-          <div className="input-group">
-            <input
-              type="text"
-              id="search_field"
-              aria-describedby="search_btn"
-              className="form-control"
-              placeholder="Enter Product Name ..."
-              name="keyword"
-            />
-            <button id="search_btn" className="btn" type="submit">
-              <i className="fa fa-search" aria-hidden="true"></i>
-            </button>
-          </div>
-        </form>
+        <Search />
       </div>
       <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
         <Link to="/cart" style={{ textDecoration: 'none' }}>

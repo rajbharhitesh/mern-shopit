@@ -9,9 +9,11 @@ import CustomPagination from '../components/layout/CustomPagination';
 
 const HomePage = () => {
   let [searchParams] = useSearchParams();
-  const page = searchParams.get('page') || 1;
 
-  const params = { page };
+  const page = searchParams.get('page') || 1;
+  const keyword = searchParams.get('keyword') || '';
+
+  const params = { page, keyword };
 
   const { data, isLoading, error, isError } = useGetProductsQuery(params);
 
@@ -21,13 +23,21 @@ const HomePage = () => {
     }
   }, [isError, error]);
 
+  const columnSize = keyword ? 4 : 3;
+
   if (isLoading) return <Loader />;
 
   return (
     <>
       <Meta title={'Buy Best Products'} />
       <div className="row">
-        <div className="col-12 col-sm-6 col-md-12">
+        {keyword && (
+          <div className="col-6  col-md-3 mt-5">
+            <p>FILTERS</p>
+          </div>
+        )}
+
+        <div className={keyword ? 'col-6 col-md-9' : 'col-6 col-md-12'}>
           <h1
             id="products_heading"
             className="text-secondary text-center"
@@ -35,13 +45,19 @@ const HomePage = () => {
               textDecoration: 'underline',
             }}
           >
-            Latest Products
+            {keyword
+              ? `${data.products.length} products found with keyword: ${keyword}`
+              : 'Latest Products'}
           </h1>
 
           <section id="products" className="mt-5">
             <div className="row">
               {data?.products.map((product) => (
-                <ProductItem product={product} key={product._id} />
+                <ProductItem
+                  product={product}
+                  key={product._id}
+                  columnSize={columnSize}
+                />
               ))}
             </div>
           </section>
