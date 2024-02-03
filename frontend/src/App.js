@@ -11,6 +11,7 @@ import RegisterPage from './pages/auth/RegisterPage';
 import ProfilePage from './pages/user/ProfilePage';
 import UpdateProfilePage from './pages/user/UpdateProfilePage';
 import UploadAvatarPage from './pages/user/UploadAvatarPage';
+import UpdatePasswordPage from './pages/user/UpdatePasswordPage';
 
 const App = () => {
   return (
@@ -48,6 +49,15 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <UploadAvatarPage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/me/update_password"
+              element={
+                <ProtectedRoute>
+                  <UpdatePasswordPage />
                 </ProtectedRoute>
               }
             />
