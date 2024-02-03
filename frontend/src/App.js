@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import './App.css';
+import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './components/layout/Footer';
 import Header from './components/layout/Header';
 import HomePage from './pages/HomePage';
@@ -23,8 +24,23 @@ const App = () => {
             <Route path="/product/:id" element={<ProductPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/me/profile" element={<ProfilePage />} />
-            <Route path="/me/update_profile" element={<UpdateProfilePage />} />
+            <Route
+              path="/me/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/me/update_profile"
+              element={
+                <ProtectedRoute>
+                  <UpdateProfilePage />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </div>
 
