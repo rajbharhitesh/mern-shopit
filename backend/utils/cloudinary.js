@@ -11,7 +11,7 @@ cloudinary.config({
 
 export const upload_file = (file, folder) => {
   return new Promise((resolve, reject) => {
-    cloudinary.v2.uploader.upload(
+    cloudinary.uploader.upload(
       file,
       (res) => {
         resolve({
@@ -25,7 +25,7 @@ export const upload_file = (file, folder) => {
 };
 
 export const delete_file = async (file) => {
-  const res = await cloudinary.v2.uploader.destroy(file);
+  const res = await cloudinary.uploader.destroy(file);
 
   if (res.result === 'ok') return true;
 };
