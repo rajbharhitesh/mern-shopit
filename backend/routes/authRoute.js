@@ -9,6 +9,7 @@ import {
   updatePassword,
   updateProfile,
   updateUser,
+  uploadAvatar,
   userProfile,
 } from '../controllers/authController.js';
 import {
@@ -34,6 +35,9 @@ router.route('/password/update').put(authenticatedUser, updatePassword);
 
 // api/v1/me/update
 router.route('/me/update').put(authenticatedUser, updateProfile);
+
+// api/v1/me/update
+router.route('/me/upload_avatar').put(authenticatedUser, uploadAvatar);
 
 //api/v1/admin/users
 router

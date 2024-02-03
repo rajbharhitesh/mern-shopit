@@ -10,6 +10,7 @@ import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import ProfilePage from './pages/user/ProfilePage';
 import UpdateProfilePage from './pages/user/UpdateProfilePage';
+import UploadAvatarPage from './pages/user/UploadAvatarPage';
 
 const App = () => {
   return (
@@ -38,6 +39,15 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <UpdateProfilePage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/me/upload_avatar"
+              element={
+                <ProtectedRoute>
+                  <UploadAvatarPage />
                 </ProtectedRoute>
               }
             />

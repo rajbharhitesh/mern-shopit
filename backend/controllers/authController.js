@@ -2,6 +2,7 @@ import asyncHandler from '../middlewares/asyncHandler.js';
 import User from '../models/userModel.js';
 import ErrorHandler from '../utils/ErrorHandler.js';
 import sendToken from '../utils/sendToken.js';
+import { upload_file } from '../utils/cloudinary.js';
 
 /**-----------------------------------------------
  * @desc    Register user
@@ -128,6 +129,24 @@ const updateProfile = asyncHandler(async (req, res, next) => {
 });
 
 /**-----------------------------------------------
+ * @desc    Upload and Update user avatar
+ * @route   /api/v1/me/upload_avatar
+ * @method  PUT
+ * @access  Private
+ ------------------------------------------------*/
+const uploadAvatar = asyncHandler(async (req, res, next) => {
+  const avatarResponse = await upload_file(req.body.avatar, 'shopit/avatars');
+
+  const user = await User.findByIdAndUpdate(req.user._id, {
+    avatar: avatarResponse,
+  });
+
+  res.status(200).json({
+    user,
+  });
+});
+
+/**-----------------------------------------------
  * @desc    Get all users by Admin
  * @route   /api/v1/admin/users
  * @method  GET
@@ -216,4 +235,5 @@ export {
   getUserDetails,
   updateUser,
   deleteUser,
+  uploadAvatar,
 };
