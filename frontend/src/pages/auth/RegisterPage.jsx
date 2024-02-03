@@ -30,7 +30,6 @@ const RegisterPage = () => {
     const registerData = { name, email, password };
 
     register(registerData);
-    toast.success('Register Successfull...');
   };
 
   return (

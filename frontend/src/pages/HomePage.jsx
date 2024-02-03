@@ -1,12 +1,19 @@
 import { useEffect } from 'react';
 import { useGetProductsQuery } from '../redux/api/productApi';
+import { useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import Loader from '../components/layout/Loader';
 import Meta from '../components/layout/Meta';
 import ProductItem from '../components/product/ProductItem';
+import CustomPagination from '../components/layout/CustomPagination';
 
 const HomePage = () => {
-  const { data, isLoading, error, isError } = useGetProductsQuery();
+  let [searchParams] = useSearchParams();
+  const page = searchParams.get('page') || 1;
+
+  const params = { page };
+
+  const { data, isLoading, error, isError } = useGetProductsQuery(params);
 
   useEffect(() => {
     if (isError) {
@@ -38,6 +45,11 @@ const HomePage = () => {
               ))}
             </div>
           </section>
+
+          <CustomPagination
+            resPerPage={data?.resPerPage}
+            filteredProductsCount={data?.filteredProductsCount}
+          />
         </div>
       </div>
     </>

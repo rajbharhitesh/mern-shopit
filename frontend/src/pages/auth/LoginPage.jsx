@@ -30,7 +30,6 @@ const LoginPage = () => {
     const loginData = { email, password };
 
     login(loginData);
-    toast.success('Login Successfull...');
   };
 
   return (
