@@ -24,6 +24,7 @@ const RegisterPage = () => {
       toast.error(error?.data?.message);
     }
   }, [error, isAuthenticated, navigate]);
+
   const submitHandler = (e) => {
     e.preventDefault();
 
