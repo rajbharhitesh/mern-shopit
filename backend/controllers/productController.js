@@ -10,7 +10,7 @@ import ApiFilters from '../utils/apiFilter.js';
  * @access  Public
  ------------------------------------------------*/
 const getProducts = asyncHandler(async (req, res) => {
-  const resPerPage = 4;
+  const resPerPage = 8;
 
   const apiFilters = new ApiFilters(Product, req.query).search().filters();
 
