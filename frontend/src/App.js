@@ -12,6 +12,7 @@ import ProfilePage from './pages/user/ProfilePage';
 import UpdateProfilePage from './pages/user/UpdateProfilePage';
 import UploadAvatarPage from './pages/user/UploadAvatarPage';
 import UpdatePasswordPage from './pages/user/UpdatePasswordPage';
+import CartPage from './pages/cart/CartPage';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
             <Route path="/product/:id" element={<ProductPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/cart" element={<CartPage />} />
             <Route
               path="/me/profile"
               element={

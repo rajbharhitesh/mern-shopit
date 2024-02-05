@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import UserLayout from '../../components/layout/UserLayout';
 import { useNavigate } from 'react-router-dom';
 import { useUploadAvatarMutation } from '../../redux/api/userApi';
-import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import UserLayout from '../../components/layout/UserLayout';
+import Meta from '../../components/layout/Meta';
 
 const UploadAvatarPage = () => {
   const { user } = useSelector((state) => state.auth);
@@ -54,6 +55,7 @@ const UploadAvatarPage = () => {
 
   return (
     <UserLayout>
+      <Meta title="Update Avatar" />
       <div className="row wrapper">
         <div className="col-10 col-lg-8">
           <form className="shadow rounded bg-body" onSubmit={submitHandler}>
