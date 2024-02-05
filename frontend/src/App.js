@@ -13,6 +13,7 @@ import UpdateProfilePage from './pages/user/UpdateProfilePage';
 import UploadAvatarPage from './pages/user/UploadAvatarPage';
 import UpdatePasswordPage from './pages/user/UpdatePasswordPage';
 import CartPage from './pages/cart/CartPage';
+import ShippingPage from './pages/cart/ShippingPage';
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/cart" element={<CartPage />} />
+
             <Route
               path="/me/profile"
               element={
@@ -60,6 +62,15 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <UpdatePasswordPage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/shipping"
+              element={
+                <ProtectedRoute>
+                  <ShippingPage />
                 </ProtectedRoute>
               }
             />
