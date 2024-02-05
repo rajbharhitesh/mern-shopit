@@ -1,12 +1,17 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useGetProductQuery } from '../../redux/api/productApi';
+import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import StarRatings from 'react-star-ratings';
 import Loader from '../../components/layout/Loader';
+import { setCartItem } from '../../redux/feature/cartSlice';
 
 const ProductPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const { data, isError, isLoading, error } = useGetProductQuery(id);
   const product = data?.product;
@@ -45,6 +50,22 @@ const ProductPage = () => {
       toast.error(error?.data?.message);
     }
   }, [isError, error]);
+
+  const setItemToCart = () => {
+    const cartItem = {
+      product: product._id,
+      name: product.name,
+      price: product.price,
+      image: product.images[0].url,
+      stock: product.stock,
+      quantity,
+    };
+
+    dispatch(setCartItem(cartItem));
+
+    toast.success('item added to cart');
+    navigate('/cart');
+  };
 
   if (isLoading) return <Loader />;
 
@@ -121,7 +142,8 @@ const ProductPage = () => {
           type="button"
           id="cart_btn"
           className="btn btn-primary d-inline ms-4"
-          disabled=""
+          disabled={product.stock === 0}
+          onClick={setItemToCart}
         >
           Add to Cart
         </button>
