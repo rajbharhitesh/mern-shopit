@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCartItem } from '../../redux/feature/cartSlice';
+import { removeCartItem, setCartItem } from '../../redux/feature/cartSlice';
 import Meta from '../../components/layout/Meta';
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -36,11 +36,15 @@ const CartPage = () => {
     dispatch(setCartItem(cartItem));
   };
 
+  const removeCartItemHandler = (id) => {
+    dispatch(removeCartItem(id));
+  };
+
   return (
     <>
       <Meta title={'Your Cart'} />
       {cartItems.length === 0 ? (
-        <h2 className="mt-5">
+        <h2 className="mt-5 text-center">
           Your Cart is Empty <Link to="/">Go Shop..!!!</Link>
         </h2>
       ) : (
@@ -100,6 +104,7 @@ const CartPage = () => {
                         <i
                           id="delete_cart_item"
                           className="fa fa-trash btn btn-danger"
+                          onClick={() => removeCartItemHandler(item.product)}
                         ></i>
                       </div>
                     </div>
