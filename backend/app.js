@@ -27,6 +27,7 @@ connectDB();
 import productRoute from './routes/productRoute.js';
 import authRoute from './routes/authRoute.js';
 import orderRoute from './routes/orderRoute.js';
+import paymentRoute from './routes/paymentRoute.js';
 
 app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
@@ -35,6 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1', productRoute);
 app.use('/api/v1', authRoute);
 app.use('/api/v1', orderRoute);
+app.use('/api/v1', paymentRoute);
 
 // error middlewares
 app.use(errorMiddleware);
