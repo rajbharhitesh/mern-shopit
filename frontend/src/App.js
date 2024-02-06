@@ -15,6 +15,7 @@ import UpdatePasswordPage from './pages/user/UpdatePasswordPage';
 import CartPage from './pages/cart/CartPage';
 import ShippingPage from './pages/cart/ShippingPage';
 import ConfirmOrderPage from './pages/cart/ConfirmOrderPage';
+import PaymentPage from './pages/cart/PaymentPage';
 
 const App = () => {
   return (
@@ -81,6 +82,15 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <ConfirmOrderPage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/payment"
+              element={
+                <ProtectedRoute>
+                  <PaymentPage />
                 </ProtectedRoute>
               }
             />

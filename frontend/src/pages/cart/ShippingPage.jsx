@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { countries } from 'countries-list';
 import { saveShippingInfo } from '../../redux/feature/cartSlice';
 import Meta from '../../components/layout/Meta';
+import CheckoutSteps from '../../components/CheckoutSteps';
 
 const ShippingPage = () => {
   const [address, setAddress] = useState('');
@@ -39,6 +40,8 @@ const ShippingPage = () => {
   return (
     <>
       <Meta title={'Shipping Info'} />
+      <CheckoutSteps shipping />
+
       <div className="row wrapper mb-5">
         <div className="col-10 col-lg-5">
           <form className="shadow rounded bg-body" onSubmit={submiHandler}>
