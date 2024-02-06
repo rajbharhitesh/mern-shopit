@@ -17,6 +17,7 @@ import ShippingPage from './pages/cart/ShippingPage';
 import ConfirmOrderPage from './pages/cart/ConfirmOrderPage';
 import PaymentPage from './pages/cart/PaymentPage';
 import OrderPage from './pages/order/OrderPage';
+import OrderDetailPage from './pages/order/OrderDetailPage';
 
 const App = () => {
   return (
@@ -101,6 +102,15 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <OrderPage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/me/order/:id"
+              element={
+                <ProtectedRoute>
+                  <OrderDetailPage />
                 </ProtectedRoute>
               }
             />
