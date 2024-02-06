@@ -45,10 +45,15 @@ export const cartSlice = createSlice({
 
       localStorage.setItem('shippingInfo', JSON.stringify(state.shippingInfo));
     },
+
+    clearCart: (state, action) => {
+      localStorage.removeItem('cartItems');
+      state.cartItems = [];
+    },
   },
 });
 
 export default cartSlice.reducer;
 
-export const { setCartItem, removeCartItem, saveShippingInfo } =
+export const { setCartItem, removeCartItem, saveShippingInfo, clearCart } =
   cartSlice.actions;
