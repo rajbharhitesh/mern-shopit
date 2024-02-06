@@ -1,17 +1,21 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useGetProductQuery } from '../../redux/api/productApi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCartItem } from '../../redux/feature/cartSlice';
 import toast from 'react-hot-toast';
 import StarRatings from 'react-star-ratings';
 import Loader from '../../components/layout/Loader';
 import Meta from '../../components/layout/Meta';
+import NewReview from '../../components/review/NewReview';
+import ListReviews from '../../components/review/ListReviews';
 
 const ProductPage = () => {
   const { id } = useParams();
 
   const dispatch = useDispatch();
+
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   const { data, isError, isLoading, error } = useGetProductQuery(id);
   const product = data?.product;
@@ -170,11 +174,18 @@ const ProductPage = () => {
             Sold by: <strong>{product.seller}</strong>
           </p>
 
-          <div className="alert alert-danger my-5" type="alert">
-            Login to post your review.
-          </div>
+          {isAuthenticated ? (
+            <NewReview productId={product?._id} />
+          ) : (
+            <div className="alert alert-danger my-5" type="alert">
+              Login to post your review.
+            </div>
+          )}
         </div>
       </div>
+      {product?.reviews?.length > 0 && (
+        <ListReviews reviews={product?.reviews} />
+      )}
     </>
   );
 };
