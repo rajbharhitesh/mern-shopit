@@ -30,7 +30,14 @@ import orderRoute from './routes/orderRoute.js';
 import paymentRoute from './routes/paymentRoute.js';
 
 app.use(cookieParser());
-app.use(express.json({ limit: '10mb' }));
+app.use(
+  express.json({
+    limit: '10mb',
+    verify: (req, res, buf) => {
+      req.rawBody = buf.toString();
+    },
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1', productRoute);
