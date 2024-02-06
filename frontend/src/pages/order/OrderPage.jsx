@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 const OrderPage = () => {
-  const { data, isLoading, error } = useMyOrdersQuery();
+  const { data, isLoading, error, refetch } = useMyOrdersQuery();
 
   const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
@@ -25,8 +25,9 @@ const OrderPage = () => {
     if (orderSuccess) {
       dispatch(clearCart());
       navigate('/me/orders');
+      refetch();
     }
-  }, [error, orderSuccess, dispatch, navigate]);
+  }, [error, orderSuccess, dispatch, navigate, refetch]);
 
   const setOrders = () => {
     const orders = {
