@@ -4,7 +4,7 @@ export const orderApi = createApi({
   reducerPath: 'orderApi',
   baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
 
-  tagTypes: ['Order'],
+  tagTypes: ['Order', 'AdminOrders'],
 
   endpoints: (builder) => ({
     createNewOrder: builder.mutation({
@@ -25,6 +25,7 @@ export const orderApi = createApi({
       query: (id) => ({
         url: `/orders/${id}`,
       }),
+      providesTags: ['Order'],
     }),
 
     getDashboardSales: builder.query({
@@ -46,12 +47,22 @@ export const orderApi = createApi({
         url: '/admin/orders',
       }),
     }),
+
+    updateOrder: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `/admin/orders/${id}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['Order'],
+    }),
   }),
 });
 
 export const {
   useCreateNewOrderMutation,
   useStripeCheckoutSessionMutation,
+  useUpdateOrderMutation,
   useMyOrdersQuery,
   useOrderDetailQuery,
   useLazyGetDashboardSalesQuery,
