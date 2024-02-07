@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PRODUCT_CATEGORIES } from '../../constants/constant';
-import { useCreateProductMutation } from '../../redux/api/productApi';
+import {
+  useGetProductQuery,
+  useUpdateProductMutation,
+} from '../../redux/api/productApi';
 import AdminLayout from '../../components/layout/AdminLayout';
 import Meta from '../../components/layout/Meta';
 import toast from 'react-hot-toast';
 
-const CreateProductPage = () => {
+const UpdateProductPage = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const [product, setProduct] = useState({
     name: '',
@@ -20,36 +24,49 @@ const CreateProductPage = () => {
 
   const { name, description, price, category, stock, seller } = product;
 
-  const [createProduct, { isLoading, error, isSuccess }] =
-    useCreateProductMutation();
+  const [updateProduct, { isLoading, error, isSuccess }] =
+    useUpdateProductMutation();
+
+  const { data } = useGetProductQuery(id);
 
   const onChange = (e) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
+    if (data?.product) {
+      setProduct({
+        name: data?.product?.name,
+        description: data?.product?.description,
+        price: data?.product?.price,
+        category: data?.product?.category,
+        stock: data?.product?.stock,
+        seller: data?.product?.seller,
+      });
+    }
+
     if (error) {
       toast.error(error?.data?.message);
     }
 
     if (isSuccess) {
-      toast.success('Product created');
+      toast.success('Product updated');
       navigate('/admin/products');
     }
-  }, [error, isSuccess, navigate]);
+  }, [error, isSuccess, navigate, data]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    createProduct(product);
+    updateProduct({ id, body: product });
   };
 
   return (
     <AdminLayout>
-      <Meta title={'Create Product'} />
+      <Meta title={'Update Product'} />
       <div className="row wrapper">
         <div className="col-10 col-lg-10 mt-5 mt-lg-0">
           <form className="shadow rounded bg-body" onSubmit={submitHandler}>
-            <h2 className="mb-4 text-center">Create New Product</h2>
+            <h2 className="mb-4 text-center">Update Product</h2>
             <div className="mb-3">
               <label htmlFor="name_field" className="form-label">
                 {' '}
@@ -150,7 +167,7 @@ const CreateProductPage = () => {
               className="btn w-100 py-2"
               disabled={isLoading}
             >
-              {isLoading ? 'Creating...' : 'CREATE'}
+              {isLoading ? 'Updating...' : 'UPDATE'}
             </button>
           </form>
         </div>
@@ -159,4 +176,4 @@ const CreateProductPage = () => {
   );
 };
 
-export default CreateProductPage;
+export default UpdateProductPage;

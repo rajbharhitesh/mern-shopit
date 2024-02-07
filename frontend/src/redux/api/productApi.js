@@ -51,6 +51,15 @@ export const productApi = createApi({
       }),
       invalidatesTags: ['AdminProducts'],
     }),
+
+    updateProduct: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `/admin/products/${id}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['AdminProducts', 'Product'],
+    }),
   }),
 });
 
@@ -60,4 +69,5 @@ export const {
   useGetAdminProductQuery,
   useSubmitReviewMutation,
   useCreateProductMutation,
+  useUpdateProductMutation,
 } = productApi;
