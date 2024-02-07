@@ -40,6 +40,20 @@ const getProductDetails = asyncHandler(async (req, res, next) => {
 });
 
 /**-----------------------------------------------
+ * @desc    Get products - ADMIN
+ * @route   /api/v1/admin/products
+ * @method  GET
+ * @access  Private
+ ------------------------------------------------*/
+const getAdminProducts = asyncHandler(async (req, res, next) => {
+  const products = await Product.find();
+
+  res.status(200).json({
+    products,
+  });
+});
+
+/**-----------------------------------------------
  * @desc    New Products
  * @route   /api/v1/admin/products
  * @method  POST
@@ -194,6 +208,7 @@ const deleteReview = asyncHandler(async (req, res, next) => {
 
 export {
   getProducts,
+  getAdminProducts,
   newProduct,
   getProductDetails,
   updateProduct,

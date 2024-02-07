@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { MDBDataTable } from 'mdbreact';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -5,7 +6,6 @@ import { useMyOrdersQuery } from '../../redux/api/orderApi';
 import { clearCart } from '../../redux/feature/cartSlice';
 import Meta from '../../components/layout/Meta';
 import Loader from '../../components/layout/Loader';
-import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 const OrderPage = () => {

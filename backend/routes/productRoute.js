@@ -3,6 +3,7 @@ import {
   createReview,
   deleteProduct,
   deleteReview,
+  getAdminProducts,
   getProductDetails,
   getProductReviews,
   getProducts,
@@ -28,6 +29,7 @@ router
 // api/v1/admin/products
 router
   .route('/admin/products')
+  .get(authenticatedUser, authorizeRoles('admin'), getAdminProducts)
   .post(authenticatedUser, authorizeRoles('admin'), newProduct);
 
 // api/v1/products/:id
