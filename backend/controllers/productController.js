@@ -2,7 +2,7 @@ import asyncHandler from '../middlewares/asyncHandler.js';
 import Product from '../models/productModel.js';
 import ErrorHandler from '../utils/ErrorHandler.js';
 import ApiFilters from '../utils/apiFilter.js';
-import { upload_file } from '../utils/cloudinary.js';
+import { delete_file, upload_file } from '../utils/cloudinary.js';
 
 /**-----------------------------------------------
  * @desc    Fetch All Products
@@ -232,6 +232,34 @@ const uploadProductImages = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**-----------------------------------------------
+ * @desc    Delete Product Images
+ * @route   /api/v1/admin/products/:id/delete_image
+ * @method  DELETE
+ * @access  Private
+ ------------------------------------------------*/
+const deleteProductImage = asyncHandler(async (req, res, next) => {
+  let product = await Product.findById(req?.params?.id);
+
+  if (!product) {
+    return next(new ErrorHandler('Product not found', 404));
+  }
+
+  const isDeleted = await delete_file(req.body.imgId);
+
+  if (isDeleted) {
+    product.images = product?.images?.filter(
+      (img) => img.public_id !== req.body.imgId
+    );
+
+    await product?.save();
+  }
+
+  res.status(200).json({
+    product,
+  });
+});
+
 export {
   getProducts,
   getAdminProducts,
@@ -243,4 +271,5 @@ export {
   getProductReviews,
   deleteReview,
   uploadProductImages,
+  deleteProductImage,
 };

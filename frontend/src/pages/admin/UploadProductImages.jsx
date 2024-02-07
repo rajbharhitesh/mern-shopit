@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
+  useDeleteProductImageMutation,
   useGetProductQuery,
   useUploadProductImagesMutation,
 } from '../../redux/api/productApi';
@@ -22,6 +23,11 @@ const UploadProductImages = () => {
   const [uploadProductImages, { isLoading, error, isSuccess }] =
     useUploadProductImagesMutation();
 
+  const [
+    deleteProductImage,
+    { isLoading: isDeleteLoading, error: deleteError },
+  ] = useDeleteProductImageMutation();
+
   useEffect(() => {
     if (data?.product) {
       setUploadedImages(data?.product?.images);
@@ -31,12 +37,16 @@ const UploadProductImages = () => {
       toast.error(error?.data?.message);
     }
 
+    if (deleteError) {
+      toast.error(deleteError?.data?.message);
+    }
+
     if (isSuccess) {
       setImagesPreview([]);
       toast.success('Images Uploaded');
       navigate('/admin/products');
     }
-  }, [data, error, isSuccess, navigate]);
+  }, [data, error, isSuccess, navigate, deleteError]);
 
   const onChange = (e) => {
     const files = Array.from(e.target.files);
@@ -72,6 +82,10 @@ const UploadProductImages = () => {
     e.preventDefault();
 
     uploadProductImages({ id, body: { images } });
+  };
+
+  const deleteImage = (imgId) => {
+    deleteProductImage({ id, body: { imgId } });
   };
 
   return (
@@ -156,6 +170,8 @@ const UploadProductImages = () => {
                             }}
                             className="btn btn-block btn-danger cross-button mt-1 py-0"
                             type="button"
+                            disabled={isLoading || isDeleteLoading}
+                            onClick={() => deleteImage(img?.public_id)}
                           >
                             <i className="fa fa-trash"></i>
                           </button>
@@ -171,7 +187,7 @@ const UploadProductImages = () => {
               id="register_button"
               type="submit"
               className="btn w-100 py-2"
-              disabled={isLoading}
+              disabled={isLoading || isDeleteLoading}
             >
               {isLoading ? 'Uploading...' : 'Upload'}
             </button>
