@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import { MDBDataTable } from 'mdbreact';
 import { Link } from 'react-router-dom';
-import { useGetAdminProductQuery } from '../../redux/api/productApi';
+import {
+  useDeleteProductMutation,
+  useGetAdminProductQuery,
+} from '../../redux/api/productApi';
 import AdminLayout from '../../components/layout/AdminLayout';
 import Loader from '../../components/layout/Loader';
 import Meta from '../../components/layout/Meta';
@@ -9,12 +12,28 @@ import toast from 'react-hot-toast';
 
 const ProductPage = () => {
   const { data, isLoading, error } = useGetAdminProductQuery();
+  const [
+    deleteProduct,
+    { isLoading: isDeleteLoading, error: deleteError, isSuccess },
+  ] = useDeleteProductMutation();
 
   useEffect(() => {
     if (error) {
       toast.error(error?.data?.message);
     }
-  }, [error]);
+
+    if (deleteError) {
+      toast.error(deleteError?.data?.message);
+    }
+
+    if (isSuccess) {
+      toast.success('Product Deleted');
+    }
+  }, [error, deleteError, isSuccess]);
+
+  const deleteProductHandler = (id) => {
+    deleteProduct(id);
+  };
 
   const setProducts = () => {
     const products = {
@@ -65,8 +84,8 @@ const ProductPage = () => {
             </Link>
             <button
               className="btn btn-outline-danger ms-2"
-              //   onClick={() => deleteProductHandler(product?._id)}
-              //   disabled={isDeleteLoading}
+              onClick={() => deleteProductHandler(product?._id)}
+              disabled={isDeleteLoading}
             >
               <i className="fa fa-trash"></i>
             </button>
