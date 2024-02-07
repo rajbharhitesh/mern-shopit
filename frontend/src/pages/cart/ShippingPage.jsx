@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { countries } from 'countries-list';
 import { saveShippingInfo } from '../../redux/feature/cartSlice';
 import Meta from '../../components/layout/Meta';
-import CheckoutSteps from '../../components/CheckoutSteps';
+import CheckoutSteps from '../../components/layout/CheckoutSteps';
 
 const ShippingPage = () => {
   const [address, setAddress] = useState('');

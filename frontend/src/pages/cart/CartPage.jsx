@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeCartItem, setCartItem } from '../../redux/feature/cartSlice';
 import Meta from '../../components/layout/Meta';
+
 const CartPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

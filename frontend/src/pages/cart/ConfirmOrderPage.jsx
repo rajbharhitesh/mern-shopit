@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { caluclateOrderCost } from '../../helpers/Helpers';
 import Meta from '../../components/layout/Meta';
-import CheckoutSteps from '../../components/CheckoutSteps';
+import CheckoutSteps from '../../components/layout/CheckoutSteps';
 
 const ConfirmOrderPage = () => {
   const { cartItems, shippingInfo } = useSelector((state) => state.cart);

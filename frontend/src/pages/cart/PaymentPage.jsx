@@ -7,7 +7,7 @@ import {
   useStripeCheckoutSessionMutation,
 } from '../../redux/api/orderApi';
 import Meta from '../../components/layout/Meta';
-import CheckoutSteps from '../../components/CheckoutSteps';
+import CheckoutSteps from '../../components/layout/CheckoutSteps';
 import toast from 'react-hot-toast';
 
 const PaymentPage = () => {
