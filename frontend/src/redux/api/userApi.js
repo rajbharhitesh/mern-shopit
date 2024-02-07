@@ -5,7 +5,7 @@ export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
 
-  tagTypes: ['User'],
+  tagTypes: ['User', 'AdminUsers'],
 
   endpoints: (builder) => ({
     getMe: builder.query({
@@ -54,11 +54,19 @@ export const userApi = createApi({
         body,
       }),
     }),
+
+    getAdminUsers: builder.query({
+      query: () => ({
+        url: '/admin/users',
+      }),
+      providesTags: ['AdminUsers'],
+    }),
   }),
 });
 
 export const {
   useGetMeQuery,
+  useGetAdminUsersQuery,
   useUpdateProfileMutation,
   useUploadAvatarMutation,
   useUpdatePasswordMutation,
