@@ -9,6 +9,7 @@ import {
   getProducts,
   newProduct,
   updateProduct,
+  uploadProductImages,
 } from '../controllers/productController.js';
 import {
   authenticatedUser,
@@ -40,5 +41,10 @@ router
   .route('/admin/products/:id')
   .put(authenticatedUser, authorizeRoles('admin'), updateProduct)
   .delete(authenticatedUser, authorizeRoles('admin'), deleteProduct);
+
+// api/v1/admin/products/:id/upload_images
+router
+  .route('/admin/products/:id/upload_images')
+  .put(authenticatedUser, authorizeRoles('admin'), uploadProductImages);
 
 export default router;

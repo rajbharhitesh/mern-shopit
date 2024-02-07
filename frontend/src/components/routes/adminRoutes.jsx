@@ -4,6 +4,7 @@ import DashboardPage from '../../pages/admin/DashboardPage';
 import ProductPage from '../../pages/admin/ProductPage';
 import CreateProductPage from '../../pages/admin/CreateProductPage';
 import UpdateProductPage from '../../pages/admin/UpdateProductPage';
+import UploadProductImages from '../../pages/admin/UploadProductImages';
 
 const adminRoutes = () => {
   return (
@@ -40,6 +41,15 @@ const adminRoutes = () => {
         element={
           <ProtectedRoute admin={true}>
             <UpdateProductPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/products/:id/upload_images"
+        element={
+          <ProtectedRoute admin={true}>
+            <UploadProductImages />
           </ProtectedRoute>
         }
       />

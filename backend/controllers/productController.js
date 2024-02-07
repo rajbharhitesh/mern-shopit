@@ -2,6 +2,7 @@ import asyncHandler from '../middlewares/asyncHandler.js';
 import Product from '../models/productModel.js';
 import ErrorHandler from '../utils/ErrorHandler.js';
 import ApiFilters from '../utils/apiFilter.js';
+import { upload_file } from '../utils/cloudinary.js';
 
 /**-----------------------------------------------
  * @desc    Fetch All Products
@@ -206,6 +207,31 @@ const deleteReview = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**-----------------------------------------------
+ * @desc    upload Product Images
+ * @route   /api/v1/admin/products/:id/upload_images
+ * @method  PUT
+ * @access  Private
+ ------------------------------------------------*/
+const uploadProductImages = asyncHandler(async (req, res, next) => {
+  let product = await Product.findById(req.params.id);
+
+  if (!product) {
+    return next(new ErrorHandler('Product not found', 404));
+  }
+
+  const uploader = async (image) => upload_file(image, 'shopit/products');
+
+  const urls = await Promise.all(req.body.images.map(uploader));
+
+  product.images.push(...urls);
+  await product.save();
+
+  res.status(200).json({
+    product,
+  });
+});
+
 export {
   getProducts,
   getAdminProducts,
@@ -216,4 +242,5 @@ export {
   createReview,
   getProductReviews,
   deleteReview,
+  uploadProductImages,
 };

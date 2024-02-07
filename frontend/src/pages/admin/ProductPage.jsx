@@ -84,7 +84,7 @@ const ProductPage = () => {
     <AdminLayout>
       <Meta title={'All Products'} />
 
-      <h1 className="my-5">{data?.products?.length} Products</h1>
+      <h1 className="my-5 text-center">{data?.products?.length} Products</h1>
 
       <MDBDataTable
         data={setProducts()}
