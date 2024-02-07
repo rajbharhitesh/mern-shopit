@@ -10,7 +10,8 @@
     "prod": "SET NODE_ENV=PRODUCTION& nodemon backend/app.js",
     "seeder": "node backend/seeder/seeder.js",
     "client": "npm start --prefix frontend",
-    "both": "concurrently \"npm run dev\" \"npm run client\""
+    "both": "concurrently \"npm run dev\" \"npm run client\"",
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "keywords": [],
   "author": "Hitesh Rajbhar",
