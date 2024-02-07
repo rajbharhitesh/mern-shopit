@@ -7,6 +7,7 @@ import {
   allOrders,
   deleteOrder,
   getOrderDetails,
+  getSales,
   myOrders,
   newOrder,
   updateOrder,
@@ -23,6 +24,11 @@ router.route('/me/orders').get(authenticatedUser, myOrders);
 router
   .route('/admin/orders')
   .get(authenticatedUser, authorizeRoles('admin'), allOrders);
+
+// /api/v1/admin/get_sales
+router
+  .route('/admin/get_sales')
+  .get(authenticatedUser, authorizeRoles('admin'), getSales);
 
 // /api/v1/admin/orders/:id
 router

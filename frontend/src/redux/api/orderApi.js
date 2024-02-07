@@ -27,6 +27,12 @@ export const orderApi = createApi({
       }),
     }),
 
+    getDashboardSales: builder.query({
+      query: ({ startDate, endDate }) => ({
+        url: `/admin/get_sales/?startDate=${startDate}&endDate=${endDate}`,
+      }),
+    }),
+
     stripeCheckoutSession: builder.mutation({
       query: (body) => ({
         url: '/payment/checkout_session',
@@ -42,4 +48,5 @@ export const {
   useStripeCheckoutSessionMutation,
   useMyOrdersQuery,
   useOrderDetailQuery,
+  useLazyGetDashboardSalesQuery,
 } = orderApi;
